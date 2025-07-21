@@ -8,7 +8,7 @@ interface PurchaseOrderDetailsProps {
 }
 
 const PostLoader = async ({ id }: { id: Promise<string> }) => {
-  "use cache";
+  "use cache: remote";
   unstable_cacheLife("hours");
   // Sleep for 4 seconds to simulate a slow operation
   await new Promise((resolve) => setTimeout(resolve, 4000));
