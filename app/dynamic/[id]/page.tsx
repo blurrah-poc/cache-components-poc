@@ -27,9 +27,9 @@ const PostLoader = cache(async ({ id }: { id: Promise<string> }) => {
 
 const PostLoaderWithoutPromise = cache(async ({ params }: { params: Promise<{ id: string }> }) => {
     "use cache: remote";
-  const {id} = await params;
-  unstable_cacheLife("hours");
-  unstable_cacheTag(`post-${id}`);
+    unstable_cacheLife("hours");
+    const {id} = await params;
+    unstable_cacheTag(`post-${id}`);
   // Sleep for 4 seconds to simulate a slow operation 
   await new Promise((resolve) => setTimeout(resolve, 4000));
   const post = await fetch(
@@ -44,7 +44,6 @@ const PostLoaderWithoutPromise = cache(async ({ params }: { params: Promise<{ id
 }); 
 
 export default async function PostPage({ params }: PurchaseOrderDetailsProps) {
-    const {id} = await params;
   return (
     <div className="flex flex-col items-center justify-center min-h-screen w-full">
       <div className="w-[90%] bg-blue-900 text-white p-4 rounded-lg mb-4 flex items-center justify-center">
