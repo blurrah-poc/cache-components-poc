@@ -25,11 +25,12 @@ const PostLoader = cache(async ({ id }: { id: Promise<string> }) => {
   );
 });
 
-const PostLoaderWithoutPromise = cache(async ({ id }: { id: string }) => {
-  "use cache: remote";
+const PostLoaderWithoutPromise = cache(async ({ params }: { params: Promise<{ id: string }> }) => {
+    "use cache: remote";
+  const {id} = await params;
   unstable_cacheLife("hours");
   unstable_cacheTag(`post-${id}`);
-  // Sleep for 4 seconds to simulate a slow operation
+  // Sleep for 4 seconds to simulate a slow operation 
   await new Promise((resolve) => setTimeout(resolve, 4000));
   const post = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${id}`
@@ -53,7 +54,7 @@ export default async function PostPage({ params }: PurchaseOrderDetailsProps) {
         <PostLoader id={params.then((p) => p.id)} />
       </Suspense>
       <Suspense fallback={<div>Loading post...</div>}>
-        <PostLoaderWithoutPromise id={id} />
+        <PostLoaderWithoutPromise params={params} />
       </Suspense>
     </div>
   );
