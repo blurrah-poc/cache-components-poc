@@ -25,7 +25,7 @@ const PostLoader = cache(async ({ id }: { id: Promise<string> }) => {
   );
 });
 
-const PostLoaderWithoutPromise = cache(async ({ id }: { id: string }) => {
+const PostLoaderWithoutPromise = async ({ id }: { id: string }) => {
     "use cache: remote";
     unstable_cacheLife("hours");
     unstable_cacheTag(`post-${id}`);
@@ -40,7 +40,7 @@ const PostLoaderWithoutPromise = cache(async ({ id }: { id: string }) => {
       {post.ok ? (await post.json()).title : "Error"}
     </h1>
   );
-}); 
+}; 
 
 export default async function PostPage({ params }: PurchaseOrderDetailsProps) {
     const {id} = await params;
