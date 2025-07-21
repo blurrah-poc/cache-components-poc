@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     cacheComponents: true,
     ppr: true,
     useCache: true,
+    prerenderEarlyExit: true,
   }
 };
 
