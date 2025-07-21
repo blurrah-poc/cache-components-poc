@@ -1,15 +1,16 @@
 
-import { unstable_cacheLife } from "next/cache";
-import { Suspense } from "react";
+import { unstable_cacheLife, unstable_cacheTag } from "next/cache";
+import { Suspense, cache } from "react";
 
 
 interface PurchaseOrderDetailsProps {
   params: Promise<{ id: string }>;
 }
 
-const PostLoader = async ({ id }: { id: Promise<string> }) => {
+const PostLoader = cache(async ({ id }: { id: Promise<string> }) => {
   "use cache: remote";
   unstable_cacheLife("hours");
+  unstable_cacheTag(`post-${id}`);
   // Sleep for 4 seconds to simulate a slow operation
   await new Promise((resolve) => setTimeout(resolve, 4000));
   const resolvedId = await id;
@@ -22,7 +23,7 @@ const PostLoader = async ({ id }: { id: Promise<string> }) => {
       {post.ok ? (await post.json()).title : "Error"}
     </h1>
   );
-};
+});
 
 export default async function PostPage({ params }: PurchaseOrderDetailsProps) {
   return (
