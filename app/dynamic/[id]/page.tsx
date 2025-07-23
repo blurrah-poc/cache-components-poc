@@ -42,6 +42,15 @@ const PostLoaderWithoutPromise = async ({ id }: { id: string }) => {
   );
 }; 
 
+const postData = cache(async (id: string) => {
+  "use cache: remote";
+  unstable_cacheLife("hours");
+  unstable_cacheTag(`post-${id}`);
+  await new Promise((resolve) => setTimeout(resolve, 4000));
+  const post = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  return post.ok ? (await post.json()).title : "Error";
+});
+
 export default async function PostPage({ params }: PurchaseOrderDetailsProps) {
     const {id} = await params;
   return (
@@ -55,6 +64,19 @@ export default async function PostPage({ params }: PurchaseOrderDetailsProps) {
       <Suspense fallback={<div>Loading post...</div>}>
         <PostLoaderWithoutPromise id={id} />
       </Suspense>
+      <Suspense fallback={<div>Loading post...</div>}>
+        <PostDetails id={id} />
+      </Suspense>
     </div>
   );
 }
+
+const PostDetails = async ({ id }: { id: string }) => {
+  const post = await postData(id);
+  return (
+    <h1 className="text-2xl font-bold mb-4">
+      Post Details (caching data instead of component): {id} -{" "}
+      {post}
+    </h1>
+  );
+};
