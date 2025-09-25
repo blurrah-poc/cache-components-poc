@@ -75,3 +75,7 @@ const PostDetails = async ({ id }: { id: string }) => {
 		</h1>
 	);
 };
+
+export function generateStaticParams() {
+	return [];
+}
