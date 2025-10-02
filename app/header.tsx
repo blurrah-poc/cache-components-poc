@@ -9,8 +9,9 @@ export async function Header() {
 }
 
 export async function Footer() {
-	// unstable_cacheLife("hours");
-	// unstable_cacheTag(`footer`);
-	await new Promise((resolve) => setTimeout(resolve, 1000));
+	"use cache: remote";
+	unstable_cacheLife("hours");
+	unstable_cacheTag(`footer`);
+	await new Promise((resolve) => setTimeout(resolve, 200));
 	return <div>Footer</div>;
 }
