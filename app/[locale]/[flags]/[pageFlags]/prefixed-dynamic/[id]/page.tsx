@@ -14,6 +14,7 @@ export default async function Page({
 	params: Promise<{ id: string }>;
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+	"use cache";
 	const { id } = await params;
 
 	return (
